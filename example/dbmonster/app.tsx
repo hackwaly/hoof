@@ -2,7 +2,7 @@ import {React, stored, computed, commit, Fragment, dynamicList, render, waitForN
 
 let databases = stored(ENV.generateData().toArray());
 let template = <table class="table table-striped latest-data">
-    <tbody data-bind="foreach: databases">
+    <tbody>
     {dynamicList(databases, (db) => {
         let dbname = computed(() => db().dbname);
         let nbQueries = computed(() => db().lastSample.nbQueries);
