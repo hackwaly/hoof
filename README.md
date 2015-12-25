@@ -1,5 +1,5 @@
 # Hoof
-A Javascript MVVM library. Like efficient JSX version of knockout.
+A Javascript MVVM library. Like efficient virtual-dom version of knockout
 
 #### Example
 
