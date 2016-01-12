@@ -10,6 +10,7 @@ export function renderDynamicList(context: Context, script: DynamicListScript<an
     let fragment = document.createDocumentFragment();
     let startMarker = document.createComment('');
     let endMarker = document.createComment('');
+    let namespace = context.namespace;
     fragment.appendChild(startMarker);
     fragment.appendChild(endMarker);
 
@@ -89,7 +90,7 @@ export function renderDynamicList(context: Context, script: DynamicListScript<an
                 let valueField = stored(record.value);
                 let lengthField = stored(array.length);
                 let mappedScript = script.mapFunc(valueField, indexField, lengthField);
-                let context = render(mappedScript);
+                let context = render(mappedScript, namespace);
                 mapping = {
                     _context: context,
                     _indexField: indexField,

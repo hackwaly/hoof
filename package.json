@@ -20,6 +20,7 @@
   "scripts": {
     "property": "./node_modules/.bin/rollup -m -f iife --name property -c -i src/property/library.ts -o lib/property.js",
     "counter": "./node_modules/.bin/rollup -m -f iife -c -i example/counter/main.tsx -o example/counter/main.js",
-    "dbmonster": "./node_modules/.bin/rollup -m -f iife -c -i example/dbmonster/app.tsx -o example/dbmonster/app.js"
+    "dbmonster": "./node_modules/.bin/rollup -m -f iife -c -i example/dbmonster/app.tsx -o example/dbmonster/app.js",
+    "d3": "./node_modules/.bin/rollup -m -f iife -c -i example/d3/main.tsx -o example/d3/main.js"
   }
 }

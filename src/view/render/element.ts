@@ -88,31 +88,55 @@ function setAttr(element: HTMLElement, attr: string, attrValue: any) {
 		return;
 	}
 
-	if (attr === 'for') {
-		attr = 'htmlFor';
-	} else if (attr === 'class') {
-		attr = 'className';
+	let attrName = attr;
+	if (attrName === 'for') {
+		attrName = 'htmlFor';
+	} else if (attrName === 'class') {
+		attrName = 'className';
 	}
 
-	if (attr in element) {
-		element[attr] = attrValue;
+	if (typeof element[attrName] === typeof attrValue) {
+		element[attrName] = attrValue;
 		return;
 	}
 
 	element.setAttribute(attr, attrValue);
 }
 
+const tagsIntroduceNamespace = {
+	'svg': 'http://www.w3.org/2000/svg'
+};
+
 export function renderElement(context: Context, script: ElementScript) {
 	let tag = script.tag;
 	if (typeof tag !== 'string') {
 		return renderScript(context, tag(script));
 	}
-	
-	let element = document.createElement(tag as string);
+
+	let tagName = tag as string;
+	if (tagsIntroduceNamespace[tagName]) {
+		context.namespaceStack.push(context.namespace);
+		context.namespace = tagsIntroduceNamespace[tagName];
+	}
+
+	let element;
+	if (context.namespace !== null) {
+		element = document.createElementNS(context.namespace, tagName);
+	} else {
+		element = document.createElement(tagName);
+	}
+
 	if (script.attrs !== null) {
 		Object.keys(script.attrs).forEach((attr) => {
 			let attrValue = script.attrs[attr];
 			if (attrValue == null) {
+				return;
+			}
+			if (attr === '$bindings') {
+				let bindings = attrValue(element);
+				bindings.forEach((binding) => {
+					context.bindings.push(binding);
+				});
 				return;
 			}
 			if (attr.startsWith('on')) {
@@ -136,6 +160,10 @@ export function renderElement(context: Context, script: ElementScript) {
 	script.children.forEach((script) => {
 		element.appendChild(renderScript(context, script));
 	});
+
+	if (tagsIntroduceNamespace[tagName]) {
+		context.namespace = context.namespaceStack.pop();
+	}
 
 	return element;
 }

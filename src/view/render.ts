@@ -14,6 +14,12 @@ export class Context {
     public firstNode: Node = null;
     public lastNode: Node = null;
 	public bindings: Binding[] = [];
+    public namespaceStack: string[] = [];
+    public namespace: string = null;
+
+    public constructor(namespace: string) {
+        this.namespace = namespace;
+    }
 
     public setNode(node: Node) {
         this.node = node;
@@ -132,8 +138,8 @@ export function renderScript(context: Context, script: Script): Node {
 	throw new Error('Unknown script');
 }
 
-export function render(script: Script) {
-	let context = new Context();
+export function render(script: Script, namespace: string = null) {
+	let context = new Context(namespace);
 	context.setNode(renderScript(context, script));
 	return context;
 }
