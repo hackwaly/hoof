@@ -8,6 +8,7 @@ _Technique preview. Opensourced here to share the ideas in it._
 
 #### Difference with React
 
+* Render once, update by data binding.
 * Not diff virtual-dom(s), diff data on necessary.
 * Support render fragments.
 
@@ -21,7 +22,7 @@ let counter = stored(0);
 let step = stored(1, (n) => +n); // The second argument is a write filter.
 
 function increment() {
-    counter.set(counter() + step());
+    counter(counter() + step());
 }
 
 let ctx = render(
