@@ -10,7 +10,7 @@ _Technique preview. Opensourced here to share the ideas in it._
 
 * Render once, update by data binding.
 * Not diff virtual-dom(s), diff data on necessary.
-* No wrap span element for text binding. It won't break your css.
+* No wrapper span element for text binding. It won't break your css.
 * Support render fragments.
 
 #### Example
